@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+    <style>
+        body {
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: url("https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iocDDB6Lpuag/v0/-999x-999.gif") center center fixed;
+            background-size: cover;
+        }
+
+        #container {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+        }
+
+        #result {
+            color: rgb(0, 0, 0);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+        }
+
+        /* Add the following style for the button */
+        #newGameBtn {
+            background-color: #4CAF50; /* Green color */
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #newGameBtn:hover {
+            background-color: #45a049; /* Darker green color on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <h2>Number Guessing game</h2>
+        <p>
+            Let's play some game, in this game you need to choose a number from 1 to 100, the guessing predictor will validate your guess
+        </p>
+        <h4>Enter a Number </h4>
+        <label for="fname">Number from 1 to 100:</label><br>
+        <input type="number" id="userg" min="1" max="100">
+        <button onclick="check()">Check Guess</button>
+        <p id="prev"></p>
+        <p id="result"></p>
+        <button id="newGameBtn" style="display:none;" onclick="newGame()">New Game</button>
+    </div>
+
+    <script>
+        var rand, res;
+
+        function startNewGame() {
+            rand = generate();
+            res = "";
+            document.getElementById("userg").value = "";
+            document.getElementById("result").textContent = "";
+            document.getElementById("prev").textContent = "You entered ";
+            document.getElementById("newGameBtn").style.display = "none";
+        }
+
+        function generate() {
+            return Math.floor(Math.random() * 100) + 1;
+        }
+
+        function check() {
+            var user = parseInt(document.getElementById("userg").value);
+            var resultElement = document.getElementById("result");
+            var previous = document.getElementById("prev");
+
+            previous.textContent = "You entered ";
+
+            if (isNaN(user)) {
+                resultElement.textContent = "Enter a valid number.";
+            } else if (rand === user) {
+                resultElement.innerHTML = '<span style="color: green; font-weight: bold;">Good, you entered the correct number ' + rand + '</span>';
+                document.getElementById("newGameBtn").style.display = "block";
+            } else if (user > rand) {
+                resultElement.textContent = "\n Entered number is greater than the guessing number, try any other number" + user;
+            } else if (user < rand) {
+                resultElement.textContent = "\n Entered number is lower than the guessing number, try any other number" + user;
+            }
+            res = res + " " + user;
+            previous.textContent += res;
+        }
+
+        function newGame() {
+            startNewGame();
+        }
+        window.onload = startNewGame;
+    </script>
+</body>
+
+</html>
